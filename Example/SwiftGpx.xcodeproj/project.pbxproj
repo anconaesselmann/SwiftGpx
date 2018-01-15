@@ -9,18 +9,20 @@
 /* Begin PBXBuildFile section */
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		61A4432AA8B40ADE73FC8F5B /* Pods_SwiftGpx_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C772F31B8A73785A6E9CB1F /* Pods_SwiftGpx_Tests.framework */; };
+		97AF8C31200CBFB90087925A /* SwiftGpx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AF8C30200CBFB90087925A /* SwiftGpx.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		49B1260E2B6E9EB912B79A6F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		49B1260E2B6E9EB912B79A6F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		5EF72269DA68BA81C6D5DD37 /* Pods-SwiftGpx_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftGpx_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftGpx_Tests/Pods-SwiftGpx_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* SwiftGpx_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftGpx_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		61102550C2DFE6C6B5B009AF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		61102550C2DFE6C6B5B009AF /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		97AF8C30200CBFB90087925A /* SwiftGpx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftGpx.swift; path = ../../SwiftGpx/Classes/SwiftGpx.swift; sourceTree = "<group>"; };
 		9C772F31B8A73785A6E9CB1F /* Pods_SwiftGpx_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftGpx_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8FDE9E83EFEEAE1926D2609 /* Pods-SwiftGpx_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftGpx_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftGpx_Tests/Pods-SwiftGpx_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		DE3C1D17C0A52E14FB1CAD3E /* SwiftGpx.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = SwiftGpx.podspec; path = ../SwiftGpx.podspec; sourceTree = "<group>"; };
+		DE3C1D17C0A52E14FB1CAD3E /* SwiftGpx.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftGpx.podspec; path = ../SwiftGpx.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +40,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				97AF8C2F200CBFAA0087925A /* SwiftGpx */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
@@ -98,6 +101,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		97AF8C2F200CBFAA0087925A /* SwiftGpx */ = {
+			isa = PBXGroup;
+			children = (
+				97AF8C30200CBFB90087925A /* SwiftGpx.swift */,
+			);
+			path = SwiftGpx;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,10 +142,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
-					607FACCF1AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
@@ -234,6 +241,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				97AF8C31200CBFB90087925A /* SwiftGpx.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

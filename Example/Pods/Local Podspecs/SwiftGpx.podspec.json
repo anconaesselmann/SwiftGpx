@@ -1,0 +1,22 @@
+{
+  "name": "SwiftGpx",
+  "version": "0.1.0",
+  "summary": "A short description of SwiftGpx.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/anconaesselmann/SwiftGpx",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "anconaesselmann": "axel@anconaesselmann.com"
+  },
+  "source": {
+    "git": "https://github.com/anconaesselmann/SwiftGpx.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SwiftGpx/Classes/**/*"
+}
