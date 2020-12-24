@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'SwiftGpx'
-  s.version          = '0.1.0'
-  s.summary          = 'SwiftGpx is a small library for reading GPX files.'
+  s.version          = '0.1.1'
+  s.summary          = 'SwiftGpx is a small library for reading amd writing GPX files.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -39,5 +39,5 @@ SwiftGpx helps with reading GPX files from file or string.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'AFDateHelper', '~> 4.2.2'
-  s.dependency 'XmlJson', '~> 0.1.2'
+  s.dependency 'XmlJson', '~> 0.1.3'
 end

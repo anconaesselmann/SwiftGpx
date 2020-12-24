@@ -24,10 +24,16 @@ fileprivate struct Keys {
     static let trkpt = "trkpt"
     
     static let fileExtension = "gpx"
+
+    static let xmlns = "xmlns"
+    static let creator = "creator"
+    static let version = "version"
+    static let xmlns_xsi = "xmlns:xsi"
+    static let xsi_schemaLocation = "xsi:schemaLocation"
 }
 
 public extension CLLocationCoordinate2D {
-    public init?(gpxJson: [String: Any]) {
+    init?(gpxJson: [String: Any]) {
         guard
             let lat = gpxJson[Keys.lat] as? CLLocationDegrees,
             let lon = gpxJson[Keys.lon] as? CLLocationDegrees
@@ -37,7 +43,7 @@ public extension CLLocationCoordinate2D {
 }
 
 public extension CLLocation {
-    public convenience init?(gpxJson: [String: Any]) {
+    convenience init?(gpxJson: [String: Any]) {
         guard
             let coordinate = CLLocationCoordinate2D(gpxJson: gpxJson),
             let altitude = gpxJson[Keys.ele] as? CLLocationDistance,
@@ -58,7 +64,7 @@ public struct LocationTrackSegment {
     
     public init?(gpxJson: [String: Any]) {
         guard let trkptElements = gpxJson[Keys.trkptElements] as? [[String: Any]] else { return nil }
-        self.init(locations: trkptElements.flatMap(CLLocation.init(gpxJson:)))
+        self.init(locations: trkptElements.compactMap(CLLocation.init(gpxJson:)))
     }
 }
 
@@ -85,7 +91,7 @@ public struct LocationTrack {
             let timeString = gpxJson[Keys.time] as? String,
             let timestamp = Date(fromString: timeString, format: .isoDateTimeSec, timeZone: .utc)
         else { return nil }
-        self.init(name: name, timestamp: timestamp, trackSegments: trksegElements.flatMap(LocationTrackSegment.init(gpxJson:)))
+        self.init(name: name, timestamp: timestamp, trackSegments: trksegElements.compactMap(LocationTrackSegment.init(gpxJson:)))
     }
 }
 
@@ -147,5 +153,188 @@ public struct SwiftGpx {
             ])
         ) else { return nil}
         self.init(gpxJson: xmlDict.dictionary!)
+    }
+}
+
+public extension CLLocationCoordinate2D {
+    var gpxJson: [String: Any] {
+        return [
+            Keys.lat: latitude,
+            Keys.lon: longitude
+        ]
+    }
+}
+
+public extension CLLocation {
+    var gpxJson: [String: Any] {
+        var result = coordinate.gpxJson
+        result[Keys.ele] = altitude
+        result[Keys.time] = timestamp.toString(format: .isoDateTimeSec, timeZone: .utc)
+        return result
+    }
+}
+
+public extension Array where Element == CLLocation {
+    var gpxJson: [[String: Any]] {
+        map { $0.gpxJson }
+    }
+}
+
+public extension LocationTrackSegment {
+    var gpxJson: [[String: Any]] {
+        return locations.gpxJson
+    }
+}
+
+public extension LocationTrack {
+    var gpxJson: [String: Any] {
+        return [
+            Keys.name: name,
+            Keys.trksegElements: trackSegments.map { $0.gpxJson }
+        ]
+    }
+}
+
+public extension SwiftGpx {
+    var gpxJson: [String: Any] {
+        return [
+            Keys.gpx: track.gpxJson
+        ]
+    }
+}
+
+public extension CLLocation {
+    var xmlTag: XmlTag {
+        XmlTag(
+            name: Keys.trkpt,
+            properties: [
+                XmlTagProperty(name: Keys.lat, data: .double(coordinate.latitude)),
+                XmlTagProperty(name: Keys.lon, data: .double(coordinate.longitude))
+            ],
+            data: .tags([
+                XmlTag(
+                    name: Keys.ele,
+                    data: .text(.double(altitude))
+                ),
+                XmlTag(
+                    name: Keys.time,
+                    data: .text(
+                        .array(
+                            [
+                                .date(
+                                    XmlDate(
+                                        date: timestamp,
+                                        formatString: "yyyy-MM-dd'T'HH:mm:ss"
+                                    )
+                                ),
+                                .string("Z")
+                            ]
+                        )
+                    )
+                )
+            ])
+        )
+    }
+}
+
+public extension LocationTrackSegment {
+    var xmlTag: XmlTag {
+        XmlTag(
+            name: Keys.trkseg,
+            data: .tags(
+                locations.map { $0.xmlTag }
+            )
+        )
+    }
+}
+
+public extension LocationTrack {
+    var xmlTag: XmlTag {
+        XmlTag(
+            name: Keys.trk,
+            data: .tags([
+                XmlTag(name: Keys.name, data: .text(.string(name))),
+                XmlTag(name: nil, data: .tags(trackSegments.map { $0.xmlTag }))
+            ])
+        )
+    }
+}
+
+public extension SwiftGpx {
+
+    init(name: String, locations: [CLLocation]) {
+        self.init(name: name, locations: [locations])
+    }
+
+    init(name: String, locations: [[CLLocation]]) {
+        self.init(
+            track: LocationTrack(
+                name: name,
+                timestamp: locations.first?.first?.timestamp ?? Date(),
+                trackSegments: locations.map { LocationTrackSegment(locations: $0) }
+            )
+        )
+    }
+
+    var xmlTag: XmlTag {
+        XmlTag(name: Keys.gpx, properties: [
+            XmlTagProperty(
+                name: Keys.xmlns,
+                data: .string("http://www.topografix.com/GPX/1/1")
+            ),
+            XmlTagProperty(
+                name: Keys.creator,
+                data: .string("SwiftGpx by Axel Ancona Esselmann")
+            ),
+            XmlTagProperty(
+                name: Keys.version,
+                data: .double(1.1)
+            ),
+            XmlTagProperty(
+                name: Keys.xmlns_xsi,
+                data: .string("http://www.w3.org/2001/XMLSchema-instance")
+            ),
+            XmlTagProperty(
+                name: Keys.xsi_schemaLocation,
+                data: .string("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd")
+            )
+        ], data:
+            .tags(
+                [
+                    track.xmlTag
+                ]
+            )
+        )
+    }
+
+    var xmlString: String {
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>" + xmlTag.stringValue
+    }
+
+    var data: Data? { xmlString.data(using: .utf8) }
+
+    func saveToFile(_ fileName: String) -> NSURL? {
+        guard let data = data else {
+            return nil
+        }
+        return data.dataToFile(fileName: fileName)
+    }
+}
+
+func getDocumentsDirectory() -> NSString {
+    let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+    let documentsDirectory = paths[0]
+    return documentsDirectory as NSString
+}
+
+extension Data {
+    func dataToFile(fileName: String) -> NSURL? {
+        let filePath = getDocumentsDirectory().appendingPathComponent(fileName)
+        do {
+            try write(to: URL(fileURLWithPath: filePath))
+            return NSURL(fileURLWithPath: filePath)
+        } catch {
+            return nil
+        }
     }
 }
