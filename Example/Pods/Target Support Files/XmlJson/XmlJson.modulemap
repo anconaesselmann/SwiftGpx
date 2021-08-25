@@ -1,0 +1,6 @@
+framework module XmlJson {
+  umbrella header "XmlJson-umbrella.h"
+
+  export *
+  module * { export * }
+}

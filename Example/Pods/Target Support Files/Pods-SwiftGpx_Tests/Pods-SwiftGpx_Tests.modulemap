@@ -1,6 +1,0 @@
-framework module Pods_SwiftGpx_Tests {
-  umbrella header "Pods-SwiftGpx_Tests-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx
+    xmlns="http://www.topografix.com/GPX/1/1" creator="SwiftGpx by Axel Ancona Esselmann" version="1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <trk>
+        <name>My Track</name>
+        <trkseg>
+            <trkpt lat="38.123727" lon="-119.46705">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:26Z</time>
+            </trkpt>
+            <trkpt lat="38.123733" lon="-119.467049">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:27Z</time>
+            </trkpt>
+            <trkpt lat="38.123736" lon="-119.467051">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:28Z</time>
+            </trkpt>
+        </trkseg>
+        <trkseg>
+            <trkpt lat="38.123736" lon="-119.46705">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:29Z</time>
+            </trkpt>
+            <trkpt lat="38.123736" lon="-119.46705">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:30Z</time>
+            </trkpt>
+            <trkpt lat="38.123736" lon="-119.467051">
+                <ele>2899.8</ele>
+                <time>2021-06-03T20:25:31Z</time>
+            </trkpt>
+        </trkseg>
+    </trk>
+</gpx>
