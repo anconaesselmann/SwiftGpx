@@ -5,6 +5,8 @@
 [![License](https://img.shields.io/cocoapods/l/SwiftGpx.svg?style=flat)](http://cocoapods.org/pods/SwiftGpx)
 [![Platform](https://img.shields.io/cocoapods/p/SwiftGpx.svg?style=flat)](http://cocoapods.org/pods/SwiftGpx)
 
+SwiftGpx is a library for parsing and writing [GPX](https://www.topografix.com/gpx.asp) data.
+
 ## Example
 
 To run the example playground clone the repo, run `pod install` in the `Example` directory and open the `Example.xcworkspace` workspace. The `Example` playground (first element in the Project Navigator) contains all the examples from below.
@@ -19,7 +21,7 @@ some examples below reqire you to import
 import CoreLocation
 ```
 
-### Instantiating GPX objects...
+### Instantiating [GPX](https://www.topografix.com/gpx.asp) objects...
 
 ...with an `Array` of `CLLocation` instances:
 ```swift
