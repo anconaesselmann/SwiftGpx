@@ -12,5 +12,5 @@ SwiftGpx is a small library for reading amd writing GPX files.
   s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
   s.source_files = 'SwiftGpx/Classes/**/*'
-  s.dependency 'XmlJson', '~> 0.1.3'
+  s.dependency 'XmlJson', '~> 1.0.1'
 end

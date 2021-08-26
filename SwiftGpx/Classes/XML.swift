@@ -4,6 +4,15 @@
 import CoreLocation
 import XmlJson
 
+fileprivate extension String {
+    static let dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+    static let schemaDocumentationUrl = "http://www.topografix.com/GPX/1/1"
+    static let schemaUri = "/gpx.xsd"
+    static let schemaNamespace = "http://www.w3.org/2001/XMLSchema-instance"
+    static let creator = "SwiftGpx by Axel Ancona Esselmann"
+    static let xmlProlog = #"<?xml version="1.0" encoding="UTF-8" standalone="no" ?>"#
+}
+
 public extension CLLocation {
     var xmlTag: XmlTag {
         XmlTag(
@@ -25,7 +34,7 @@ public extension CLLocation {
                                 .date(
                                     XmlDate(
                                         date: timestamp,
-                                        formatString: "yyyy-MM-dd'T'HH:mm:ss"
+                                        formatString: .dateFormat
                                     )
                                 ),
                                 .string("Z")
@@ -62,15 +71,35 @@ public extension LocationTrack {
 }
 
 public extension GPX {
+
+    init?(xmlData: Data) {
+        guard let xmlDict = XmlJson(
+            xmlData: xmlData,
+            mappings:[
+                .array(Keys.trkseg, element: Keys.trkpt),
+                .array(Keys.trk, element: Keys.trkseg),
+                .textNode(Keys.ele),
+                .textNode(Keys.time),
+                .textNode(Keys.name)
+            ],
+            transformations: [
+                .double(Keys.ele),
+                .double(Keys.lon),
+                .double(Keys.lat)
+            ]
+        ) else { return nil}
+        self.init(gpxJson: xmlDict.dictionary!)
+    }
+    
     var xmlTag: XmlTag {
         XmlTag(name: Keys.gpx, properties: [
             XmlTagProperty(
                 name: Keys.xmlns,
-                data: .string("http://www.topografix.com/GPX/1/1")
+                data: .string(.schemaDocumentationUrl)
             ),
             XmlTagProperty(
                 name: Keys.creator,
-                data: .string("SwiftGpx by Axel Ancona Esselmann")
+                data: .string(.creator)
             ),
             XmlTagProperty(
                 name: Keys.version,
@@ -78,11 +107,11 @@ public extension GPX {
             ),
             XmlTagProperty(
                 name: Keys.xmlns_xsi,
-                data: .string("http://www.w3.org/2001/XMLSchema-instance")
+                data: .string(.schemaNamespace)
             ),
             XmlTagProperty(
                 name: Keys.xsi_schemaLocation,
-                data: .string("http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd")
+                data: .string(.schemaDocumentationUrl + " " + .schemaDocumentationUrl + .schemaUri)
             )
         ], data:
             .tags(
@@ -94,6 +123,6 @@ public extension GPX {
     }
 
     var xmlString: String {
-        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>" + xmlTag.stringValue
+        .xmlProlog + xmlTag.stringValue
     }
 }

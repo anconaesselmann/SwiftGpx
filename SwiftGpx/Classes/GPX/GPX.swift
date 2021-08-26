@@ -54,32 +54,6 @@ public struct GPX: Codable {
         self.init(xmlData: xmlData)
     }
 
-    public init?(xmlData: Data) {
-        let toDouble: (Any) -> Any = { maybeString in
-            guard
-                let string = maybeString as? String,
-                let double = Double(string)
-                else { return 0 }
-            return double
-        }
-        guard let xmlDict = XmlJson(
-            xmlData: xmlData,
-            mappings: Set([
-                .holdsArray(key: Keys.trkseg, elementNames: Keys.trkpt),
-                .holdsArray(key: Keys.trk, elementNames: Keys.trkseg),
-                .isTextNode(key: Keys.ele),
-                .isTextNode(key: Keys.time),
-                .isTextNode(key: Keys.name)
-            ]),
-            transformations: Set<XmlTransformation>([
-                XmlTransformation(key: Keys.ele, map: toDouble),
-                XmlTransformation(key: Keys.lon, map: toDouble),
-                XmlTransformation(key: Keys.lat, map: toDouble)
-            ])
-        ) else { return nil}
-        self.init(gpxJson: xmlDict.dictionary!)
-    }
-
     @discardableResult
     public func saveToFile(_ fileName: String) -> NSURL? {
         guard let data = data else {

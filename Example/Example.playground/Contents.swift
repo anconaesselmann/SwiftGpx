@@ -1,6 +1,6 @@
 import Foundation
 import SwiftGpx
-import MapKit
+import CoreLocation
 
 print("Instantiating GPX objects:")
 
