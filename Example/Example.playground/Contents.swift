@@ -5,19 +5,17 @@ import CoreLocation
 print("Instantiating GPX objects:")
 
 let locations: [CLLocation] = [
-    CLLocation(lat: 38.1237270, lon: -119.4670500, alt: 2899.8, dateString: "2021-06-03T20:25:26Z"),
-    CLLocation(lat: 38.1237330, lon: -119.4670490, alt: 2899.8, dateString: "2021-06-03T20:25:27Z"),
-    CLLocation(lat: 38.1237360, lon: -119.4670510, alt: 2899.8, dateString: "2021-06-03T20:25:28Z"),
-    CLLocation(lat: 38.1237360, lon: -119.4670500, alt: 2899.8, dateString: "2021-06-03T20:25:29Z"),
-    CLLocation(lat: 38.1237360, lon: -119.4670500, alt: 2899.8, dateString: "2021-06-03T20:25:30Z"),
-    CLLocation(lat: 38.1237360, lon: -119.4670510, alt: 2899.8, dateString: "2021-06-03T20:25:31Z")
+    CLLocation(lat: 38.1237270, lon: -119.4670500, alt: 2899.8, timestamp: "2021-06-03T20:25:26Z"),
+    CLLocation(lat: 38.1237330, lon: -119.4670490, alt: 2899.8, timestamp: "2021-06-03T20:25:27Z"),
+    CLLocation(lat: 38.1237360, lon: -119.4670510, alt: 2899.8, timestamp: "2021-06-03T20:25:28Z"),
+    CLLocation(lat: 38.1237360, lon: -119.4670500, alt: 2899.8, timestamp: "2021-06-03T20:25:29Z"),
+    CLLocation(lat: 38.1237360, lon: -119.4670500, alt: 2899.8, timestamp: "2021-06-03T20:25:30Z"),
+    CLLocation(lat: 38.1237360, lon: -119.4670510, alt: 2899.8, timestamp: "2021-06-03T20:25:31Z")
 ].compactMap { $0 }
 
 print()
 print("With an array of CLLocation instances:")
-let trackFromLocations = GPX(name: "My Track", locations: locations)
-print(trackFromLocations)
-
+let trackFromLocations = GPX(locations: locations)
 
 let gpxString = """
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>

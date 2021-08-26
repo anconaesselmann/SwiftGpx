@@ -4,13 +4,13 @@
 import Foundation
 
 public extension LocationTrackSegment {
-    var gpxJson: [[String: Any]] {
+    var gpxJson: [JsonDictionary] {
         return locations.gpxJson
     }
 }
 
 public extension LocationTrack {
-    var gpxJson: [String: Any] {
+    var gpxJson: JsonDictionary {
         return [
             Keys.name: name,
             Keys.trksegElements: trackSegments.map { $0.gpxJson }
@@ -19,7 +19,7 @@ public extension LocationTrack {
 }
 
 public extension GPX {
-    var gpxJson: [String: Any] {
+    var gpxJson: JsonDictionary {
         return [
             Keys.gpx: track.gpxJson
         ]

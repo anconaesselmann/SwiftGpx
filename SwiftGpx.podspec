@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftGpx'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'SwiftGpx is a small library for reading amd writing GPX files'
   s.description      = <<-DESC
 SwiftGpx is a small library for reading amd writing GPX files.

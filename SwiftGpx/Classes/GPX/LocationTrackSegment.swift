@@ -11,8 +11,8 @@ public struct LocationTrackSegment {
         self.locations = locations
     }
 
-    public init?(gpxJson: [String: Any]) {
-        guard let trkptElements = gpxJson[Keys.trkptElements] as? [[String: Any]] else { return nil }
+    public init?(gpxJson: JsonDictionary) {
+        guard let trkptElements = gpxJson[Keys.trkptElements] as? [JsonDictionary] else { return nil }
         self.init(locations: trkptElements.compactMap(CLLocation.init(gpxJson:)))
     }
 }

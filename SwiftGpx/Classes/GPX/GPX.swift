@@ -12,28 +12,25 @@ public struct GPX: Codable {
 
     public var data: Data? { xmlString.data(using: .utf8) }
 
-    public init(name: String, locations: [CLLocation]) {
-        self.init(name: name, locations: [locations])
+    public init(name: String? = nil, locations: [[CLLocation]]) {
+        self.init(track: LocationTrack(
+            name: name,
+            trackSegments: locations.map { LocationTrackSegment(locations: $0) }
+        ))
     }
 
-    public init(name: String, locations: [[CLLocation]]) {
-        self.init(
-            track: LocationTrack(
-                name: name,
-                timestamp: locations.first?.first?.timestamp ?? Date(),
-                trackSegments: locations.map { LocationTrackSegment(locations: $0) }
-            )
-        )
+    public init(name: String? = nil, locations: [CLLocation]) {
+        self.init(name: name, locations: [locations])
     }
 
     public init(track: LocationTrack) {
         self.track = track
     }
 
-    public init?(gpxJson: [String: Any]) {
+    public init?(gpxJson: JsonDictionary) {
         guard
-            let gpxDict = gpxJson[Keys.gpx] as? [String: Any],
-            let trackJson = gpxDict[Keys.trk] as? [String: Any],
+            let gpxDict = gpxJson[json: Keys.gpx],
+            let trackJson = gpxDict[json: Keys.trk],
             let track = LocationTrack(gpxJson: trackJson)
         else { return nil }
         self.init(track: track)
@@ -61,6 +58,8 @@ public struct GPX: Codable {
         }
         return data.dataToFile(fileName: fileName)
     }
+
+    // MARK: Codable
 
     enum CodingKeys: CodingKey {
         case name, trackSegments
@@ -96,6 +95,24 @@ public struct GPX: Codable {
         let trackSegments = track.trackSegments.map { $0.locations.map { LocationData($0) } }
         try container.encode(trackSegments, forKey: .trackSegments)
         try container.encode(track.name, forKey: .name)
+    }
+
+    // MARK: - Date conversion
+
+    private static let timestampFormat: String = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+    private static let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = timestampFormat
+        return dateFormatter
+    }()
+
+    public static func toISO8601Timestamp(_ date: Date) -> String {
+        dateFormatter.string(from: date)
+    }
+
+    public static func fromISO8601Timestamp(_ timestamp: String) -> Date? {
+        dateFormatter.date(from: timestamp)
     }
 }
 

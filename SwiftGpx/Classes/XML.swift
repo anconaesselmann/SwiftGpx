@@ -3,8 +3,9 @@
 
 import CoreLocation
 import XmlJson
+import Foundation
 
-fileprivate extension String {
+extension String {
     static let dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
     static let schemaDocumentationUrl = "http://www.topografix.com/GPX/1/1"
     static let schemaUri = "/gpx.xsd"
@@ -124,5 +125,9 @@ public extension GPX {
 
     var xmlString: String {
         .xmlProlog + xmlTag.stringValue
+    }
+
+    var gpxString: String {
+        xmlString
     }
 }

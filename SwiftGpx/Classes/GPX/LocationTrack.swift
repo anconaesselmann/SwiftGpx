@@ -13,26 +13,29 @@ public struct LocationTrack {
         return trackSegments.flatMap { $0.locations }
     }
 
-    public init(name: String, timestamp: Date, trackSegments: [LocationTrackSegment] = []) {
-        self.name = name
-        self.timestamp = timestamp
+    public init(name: String? = nil, timestamp: Date? = nil, trackSegments: [LocationTrackSegment] = []) {
+        let timestamp = timestamp ?? trackSegments.last.flatMap({ $0.locations })?.first?.timestamp
+        if let trackName = name {
+            self.name = trackName
+        } else {
+            if let timestamp = timestamp {
+                self.name = "Track from \(GPX.toISO8601Timestamp(timestamp))"
+            } else {
+                self.name = "Untitled Track"
+            }
+        }
+        self.timestamp = timestamp ?? Date()
         self.trackSegments = trackSegments
     }
 
-    public init(name: String, trackSegments: [LocationTrackSegment] = []) {
-        self.name = name
-        self.timestamp = trackSegments.first?.locations.first?.timestamp ?? Date()
-        self.trackSegments = trackSegments
-    }
-
-    public init?(gpxJson: [String: Any]) {
+    public init?(gpxJson: JsonDictionary) {
         guard
-            let trksegElements = gpxJson[Keys.trksegElements] as? [[String: Any]],
+            let trksegElements = gpxJson[Keys.trksegElements] as? [JsonDictionary],
             let name = gpxJson[Keys.name] as? String
         else { return nil }
         if
             let timeString = gpxJson[Keys.time] as? String,
-            let timestamp = timeString.iso8601Date
+            let timestamp = GPX.fromISO8601Timestamp(timeString)
         {
             self.init(name: name, timestamp: timestamp, trackSegments: trksegElements.compactMap(LocationTrackSegment.init(gpxJson:)))
         } else {
