@@ -7,6 +7,8 @@
 
 SwiftGpx is a library for parsing and writing [GPX](https://www.topografix.com/gpx.asp) data.
 
+SwiftGpx powers [GPX File Editor](https://apps.apple.com/us/app/gpx-file-editor/id1583908804), which is available for iPhone in the App Store.
+
 ## Example
 
 To run the example playground clone the repo, run `pod install` in the `Example` directory and open the `Example.xcworkspace` workspace. The `Example` playground (first element in the Project Navigator) contains all the examples from below.
